@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Client</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ws = new WebSocket('https://rplace-server.glitch.me/'); // Changez l'URL si nécessaire
+
+            ws.onopen = () => {
+                console.log('Connected to the WebSocket server.');
+            };
+
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (data.type === 'map') {
+                    console.log('Received map data:', data.pixels);
+                    downloadMap(data.pixels);
+                    setInterval(() => {
+                        location.reload();
+                    }, 60000);
+                }
+            };
+
+            function downloadMap(pixels) {
+                const blob = new Blob([JSON.stringify(pixels, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'pixels_backup.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                console.log('Map data downloaded.');
+            }
+        });
+    </script>
+</head>
+<body>
+<h1>WebSocket Client</h1>
+<p>Check the console for connection status and downloaded files.</p>
+</body>
+</html>
