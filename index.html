@@ -6,7 +6,7 @@
     <title>WebSocket Client</title>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const ws = new WebSocket('https://rplace-server.glitch.me/'); // Changez l'URL si nécessaire
+            const ws = new WebSocket('https://rplacev2-server.glitch.me/'); // Changez l'URL si nécessaire
 
             ws.onopen = () => {
                 console.log('Connected to the WebSocket server.');
@@ -19,7 +19,7 @@
                     downloadMap(data.pixels);
                     setInterval(() => {
                         location.reload();
-                    }, 290000);
+                    }, 180000);
                 }
             };
 
